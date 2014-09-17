@@ -22,8 +22,8 @@ private UserService userService;
     @Test
     public void addUser(){
         UserModel user = new UserModel();
-        user.setUsername("ÄãºÃ");
-        user.setPassword("aaa");
+        user.setUsername("ä½ å¥½");
+        user.setPassword("bbb");
         userService.insertUser(user);
     }
 }
