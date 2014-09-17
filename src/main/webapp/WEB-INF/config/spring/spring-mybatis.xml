@@ -20,9 +20,9 @@
     
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
 		<property name="driverClassName" value="${jdbc_driverClassName}"/>
-		<property name="url" value="${url}" />
-		<property name="username" value="${username}" />
-		<property name="password" value="${password}" />
+		<property name="url" value="${jdbc_url}" />
+		<property name="username" value="${jdbc_username}" />
+		<property name="password" value="${jdbc_password}" />
 		<!-- 连接池最大使用连接数 -->
 		<property name="maxActive" value="20"/>
 		<!-- 初始化连接大小 -->
@@ -44,14 +44,14 @@
 	<!-- mybatis文件配置，扫描所有mapper文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-	    <property name="mapperLocations" value="classpath:com/dahafo/demo/um/mapping/*Mapper.xml" />
+	    <property name="mapperLocations" value="./WEB-INF/mapper/*Mapper.xml" />
 	</bean>
 		
 	<!-- configLocation为mybatis属性 mapperLocations为所有mapper -->
 
 	<!-- spring与mybatis整合配置，扫描所有dao -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.dahafo.demo.um.dao" />
+		<property name="basePackage" value="com.tian.myweb.sys.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
 
@@ -76,7 +76,7 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut id="transactionPointcut" expression="execution(* com.dahafo.demo.um.service.*.*(..))" />
+		<aop:pointcut id="transactionPointcut" expression="execution(* com.tian.myweb.sys.service.*.*(..))" />
 		<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />
 	</aop:config>
 	<!-- 配置druid监控spring jdbc -->

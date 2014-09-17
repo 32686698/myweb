@@ -11,8 +11,8 @@ import com.tian.myweb.sys.service.UserService;
 public class UserServiceImpl implements UserService{
 
 	@Autowired
-	private UserDAO userDAO;
 	
+	private UserDAO userDAO;
 	
 	public void insertUser(UserModel user) {
 		userDAO.insertUser(user);

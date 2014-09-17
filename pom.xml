@@ -136,7 +136,12 @@
 			<version>10.2.0.4.0</version>
 		</dependency>
 		
-		
+		<!-- json数据 -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
 		
 		<!-- Test -->
 		<dependency>
@@ -146,12 +151,13 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<!-- 阿里巴巴 -->
+		<!-- 阿里巴巴 数据源-->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>0.2.20</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
