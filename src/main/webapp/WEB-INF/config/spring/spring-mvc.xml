@@ -34,7 +34,7 @@
 		</property>
 	</bean>
 	
-	<!-- 避免IE在ajax请求时，返回json出现下载 -->
+	<!-- 避免IE在ajax请求时，返回json出现下载
    	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">    
         <property name="supportedMediaTypes">
             <list>
@@ -42,7 +42,8 @@
             </list>
         </property>
     </bean>
-    
+     -->
+     
     <!-- 对模型视图添加前后缀 -->
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
