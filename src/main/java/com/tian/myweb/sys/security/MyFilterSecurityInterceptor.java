@@ -15,14 +15,34 @@ import org.springframework.security.access.intercept.InterceptorStatusToken;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
+/**
+ * @description 一个自定义的filter，
+ *              必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性
+ *              ， 我们的所有控制将在这三个类中实现
+ */
 public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor
 		implements Filter {
 
 	private FilterInvocationSecurityMetadataSource securityMetadataSource;
 
-	public void doFilter(ServletRequest arg0, ServletResponse arg1,
-			FilterChain arg2) throws IOException, ServletException {
-		FilterInvocation fi = new FilterInvocation(arg0, arg1, arg2);
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		// super.beforeInvocation(fi);源码
+		// 1.获取请求资源的权限
+		// 执行Collection<ConfigAttribute> attributes =SecurityMetadataSource.getAttributes(object);
+		// 2.是否拥有权限
+		// this.accessDecisionManager.decide(authenticated, object, attributes);
+		System.out.println("------------MyFilterSecurityInterceptor.doFilter()-----------开始拦截器了....");
+		FilterInvocation fi = new FilterInvocation(request, response, chain);
+		InterceptorStatusToken token = super.beforeInvocation(fi);
+		try {
+			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			super.afterInvocation(token, null);
+		}
+		System.out.println("------------MyFilterSecurityInterceptor.doFilter()-----------拦截器该方法结束了....");
 	}
 
 	@Override
@@ -31,33 +51,19 @@ public class MyFilterSecurityInterceptor extends AbstractSecurityInterceptor
 		return FilterInvocation.class;
 	}
 
-	public void invoke(FilterInvocation fi) throws IOException,
-			ServletException {
-		InterceptorStatusToken token = super.beforeInvocation(fi);
-		try {
-			fi.getChain().doFilter(fi.getRequest(), fi.getResponse());//核心 ，即在执行doFilter之前，进行权限的检查
-		} finally {
-			super.afterInvocation(token, null);
-		}
-	}
-	
 	@Override
 	public SecurityMetadataSource obtainSecurityMetadataSource() {
-		// TODO Auto-generated method stub
-		 return this.securityMetadataSource;
-	}
-
-	
-	public FilterInvocationSecurityMetadataSource getSecurityMetadataSource() {
-		return securityMetadataSource;
-	}
-	public void setSecurityMetadataSource(
-			FilterInvocationSecurityMetadataSource securityMetadataSource) {
-		this.securityMetadataSource = securityMetadataSource;
+		return this.securityMetadataSource;
 	}
 
 	public void init(FilterConfig arg0) throws ServletException {
 	}
+
 	public void destroy() {
+	}
+
+	public void setSecurityMetadataSource(
+			FilterInvocationSecurityMetadataSource securityMetadataSource) {
+		this.securityMetadataSource = securityMetadataSource;
 	}
 }
