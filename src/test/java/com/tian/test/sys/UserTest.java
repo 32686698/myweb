@@ -1,5 +1,7 @@
 package com.tian.test.sys;
 
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -21,9 +23,14 @@ private UserService userService;
      
     @Test
     public void addUser(){
-    	SysUser user = new SysUser();
-        user.setUsername("你好");
-        user.setPassword("bbb");
-        userService.insertSysUser(user);
+//    	SysUser user = new SysUser();
+//    	user.setId("aaaaaaaaaaaa");
+//        user.setUsername("aaa");
+//        user.setPassword("bbb");
+//        user.setOpenFlag("1");
+//        user.setCreateUid("1");
+//        user.setCreateDate(new Date());
+//        userService.insertSysUser(user);
+        System.out.println(userService.findAllSysUser());
     }
 }

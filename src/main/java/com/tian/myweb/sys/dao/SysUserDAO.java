@@ -25,4 +25,11 @@ public interface SysUserDAO {
 	 */
 	List findSysUserById(String id);
 	
+	/**
+	 * 根据用户名得到用户
+	 * @param username
+	 * @return
+	 */
+	SysUser findSysUserByUsername(String username);
+	
 }

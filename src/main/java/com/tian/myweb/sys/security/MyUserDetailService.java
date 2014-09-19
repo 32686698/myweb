@@ -10,8 +10,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.tian.myweb.sys.domain.SysUser;
+import com.tian.myweb.sys.service.UserService;
+
 public class MyUserDetailService implements UserDetailsService{
 
+	private UserService userService;
+	public UserService getUserService() {
+		return userService;
+	}
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		Collection<GrantedAuthority> auths=new ArrayList<GrantedAuthority>();
@@ -23,8 +33,10 @@ public class MyUserDetailService implements UserDetailsService{
             auths.add(auth1);
         }
         
-        User user = new User(username,
-                "robin", true, true, true, true, auths);
+        SysUser u = userService.findSysUserByUsername(username);
+        
+        User user = new User(username,u.getPassword(), 
+        		u.getOpenFlag().equals("1")?true:false, true, true, true, auths);
         return user;
 	}
 

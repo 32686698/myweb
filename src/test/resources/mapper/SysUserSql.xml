@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!-- 用户表表sql处理语句 -->
-<mapper namespace="com.tian.myweb.sys.dao.SysUserDAO">
+<mapper namespace="com.hisign.business.service.domain.sysUserManager">
 	<resultMap id="BaseResultMap" type="com.tian.myweb.sys.domain.SysUser" ></resultMap>
 	
 	<!-- 做查询基类用-->
@@ -25,13 +25,6 @@
 			MODIFY_UID as modifyUid
   	</sql>
   	
-  	<!-- 根据主键PK查找用户表 -->
-	<select id="findSysUserByUsername"  parameterType="string"  resultMap="BaseResultMap">
-		select
-			<include refid="Base_Column_List" />
-		from sys_user
-		where username = #{username}
-	</select>
 	<!-- 根据主键PK查找用户表 -->
 	<select id="findSysUserById"  parameterType="string"  resultMap="BaseResultMap">
 		select
