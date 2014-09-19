@@ -30,7 +30,7 @@
 		select
 			<include refid="Base_Column_List" />
 		from sys_user
-		where username = #{username}
+		where username = #{username} and open_flag='1'
 	</select>
 	<!-- 根据主键PK查找用户表 -->
 	<select id="findSysUserById"  parameterType="string"  resultMap="BaseResultMap">

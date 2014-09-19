@@ -28,4 +28,11 @@ public interface UserService {
 	 * @return
 	 */
 	SysUser findSysUserByUsername(String username);
+	
+	/**
+	 * 根据用户ID得到这个用户的角色
+	 * @param id
+	 * @return
+	 */
+	List findSysRoleByUserId(String id);
 }

@@ -2,41 +2,38 @@ package com.tian.myweb.sys.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.tian.myweb.sys.domain.SysRole;
 import com.tian.myweb.sys.domain.SysUser;
 import com.tian.myweb.sys.service.UserService;
 
 public class MyUserDetailService implements UserDetailsService{
 
+	@Autowired
 	private UserService userService;
-	public UserService getUserService() {
-		return userService;
-	}
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		Collection<GrantedAuthority> auths=new ArrayList<GrantedAuthority>();
-        GrantedAuthorityImpl auth2=new GrantedAuthorityImpl("ROLE_ADMIN");
-        auths.add(auth2);
-        if(username.equals("robin1")){
-            auths=new ArrayList<GrantedAuthority>();
-            GrantedAuthorityImpl auth1=new GrantedAuthorityImpl("ROLE_ROBIN");
-            auths.add(auth1);
-        }
-        
         SysUser u = userService.findSysUserByUsername(username);
+        if(null==u)
+        	return null;
         
-        User user = new User(username,u.getPassword(), 
-        		u.getOpenFlag().equals("1")?true:false, true, true, true, auths);
+        Collection<GrantedAuthority> auths=new ArrayList<GrantedAuthority>();
+        List<SysRole> roles = userService.findSysRoleByUserId(u.getId());//得到用户角色
+        for (SysRole sysRole : roles) {
+        	SimpleGrantedAuthority a = new SimpleGrantedAuthority(sysRole.getRoleName());
+        	auths.add(a);
+		}
+		
+        User user = new User(username,u.getPassword(),true, true, true, true, auths);
         return user;
 	}
 

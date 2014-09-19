@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tian.myweb.sys.dao.SysRoleDAO;
 import com.tian.myweb.sys.dao.SysUserDAO;
 import com.tian.myweb.sys.domain.SysUser;
 import com.tian.myweb.sys.service.UserService;
@@ -14,6 +15,8 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	private SysUserDAO userDAO;
+	@Autowired
+	private SysRoleDAO sysRoleDAO;
 	
 	public void insertSysUser(SysUser user) {
 		userDAO.insertSysUser(user);
@@ -29,6 +32,10 @@ public class UserServiceImpl implements UserService{
 
 	public SysUser findSysUserByUsername(String username) {
 		return userDAO.findSysUserByUsername(username);
+	}
+	
+	public List findSysRoleByUserId(String id){
+		return sysRoleDAO.findSysRoleByUserId(id);
 	}
 
 }

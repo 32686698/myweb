@@ -7,5 +7,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 映射map -->
 	<mappers>
 		<mapper resource="com/tian/myweb/sys/mapper/sysuser/SysUserSql.xml" />
+		<mapper resource="com/tian/myweb/sys/mapper/sysrole/SysRoleSql.xml" />
 	</mappers>
 </configuration>

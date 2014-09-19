@@ -8,8 +8,8 @@
 </head>
 <body>
 <form action="<%=request.getContextPath() %>/j_spring_security_check" method="post">
-	<input type="text" name="j_username"><br>
-	<input type="text" name="j_password"><br>
+	<input type="text" name="j_username" value="tian"><br>
+	<input type="text" name="j_password" value="yasheng"><br>
 	<input type="submit" value="提交">
 </form>
 </body>

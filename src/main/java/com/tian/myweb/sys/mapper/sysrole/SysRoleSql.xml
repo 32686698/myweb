@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!-- 角色表表sql处理语句 -->
-<!-- Last updated:2014-09-19 12:53:16 -->
-<mapper namespace="com.hisign.business.service.domain.sysRoleManager">
-	<!-- 在下面加入sql语句定义 -->
+<mapper namespace="com.tian.myweb.sys.dao.SysRoleDAO">
 
+	<resultMap id="BaseResultMap" type="com.tian.myweb.sys.domain.SysRole"></resultMap>
+
+
+	<!-- 做查询基类用 -->
+	<sql id="Base_Column_List">
+		id as id,
+		role_name as roleName,
+		description as description,
+		OPEN_FLAG as openFlag,
+		CREATE_DATE as createDate,
+		CREATE_UID as
+		createUid,
+		MODIFY_DATE as modifyDate,
+		MODIFY_UID as modifyUid
+	</sql>
+
+	<!-- 根据主键PK查找角色表 -->
+	<select id="findSysRoleByUserId" parameterType="string" resultMap="BaseResultMap">
+		select
+		r.id as id ,r.role_name as roleName
+		from sys_user u, sys_role r,sys_user_role ur
+		where u.id=ur.user_id 
+		  and r.id=ur.role_id 
+		  and r.open_flag='1' 
+		  and u.open_flag='1'
+		  and u.id=#{id} 
+	</select>
 </mapper>

@@ -27,7 +27,7 @@ public class UserController {
         return "main";// 跳转页面路径（默认为转发），该路径不需要包含spring-servlet配置文件中配置的前缀和后缀
     }
 	
-	@RequestMapping(value="/loginFail")  // 请求url地址映射，类似Struts的action-mapping
+	@RequestMapping(value="/user/loginFail")  // 请求url地址映射，类似Struts的action-mapping
     public String loginFail(@RequestParam("msg")String msg, HttpServletRequest request) {
         // @RequestParam是指请求url地址映射中必须含有的参数(除非属性required=false)
         // @RequestParam可简写为：@RequestParam("username")
