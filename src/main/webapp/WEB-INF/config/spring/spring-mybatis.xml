@@ -41,14 +41,14 @@
 		<property name="connectionProperties" value="clientEncoding=UTF-8"/>
 	</bean>
 
+
 	<!-- mybatis文件配置，扫描所有mapper文件 -->
+	<!-- configLocation为mybatis属性 mapperLocations为所有mapper -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-	    <property name="mapperLocations" value="./WEB-INF/mapper/*Mapper.xml" />
+		<property name="configLocation" value="./WEB-INF/config/mybatis-config.xml"/>
 	</bean>
 		
-	<!-- configLocation为mybatis属性 mapperLocations为所有mapper -->
-
 	<!-- spring与mybatis整合配置，扫描所有dao -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.tian.myweb.sys.dao" />

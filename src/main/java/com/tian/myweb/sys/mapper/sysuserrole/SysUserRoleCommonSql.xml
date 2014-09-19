@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 用户角色表表sql处理语句的代码模板 -->
+<!-- Last updated:2014-09-19 12:53:16 -->
+<!-- 该模板中的sql语句不得直接使用,只是做为代码模板参考 -->
+<mapper namespace="com.hisign.business.service..SysUserRoleManager">
+	<resultMap id="BaseResultMap" type="com.hisign.business.service.domain..SysUserRole" ></resultMap>
+	
+	
+	<!-- 做查询基类用-->
+	<sql id="Base_Column_List" >
+			id as id,
+			role_id as roleId,
+			user_id as userId,
+			OPEN_FLAG as openFlag,
+			CREATE_DATE as createDate,
+			CREATE_UID as createUid,
+			MODIFY_DATE as modifyDate,
+			MODIFY_UID as modifyUid
+  	</sql>
+  	
+	<!-- 根据主键PK查找用户角色表 -->
+	<select id="findSysUserRoleByPk"  parameterType="string"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_user_role
+		where
+			1 = 1 
+			and del = '0'
+			and	id = #{id}
+	</select>
+	
+	<!-- 根据条件过滤用户角色表-->
+	<select id="findSysUserRoleList"  parameterType="com.hisign.business.action..SysUserRoleFilter"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_user_role
+		where   1=1
+			and del = '0'
+			<if test="id!=null "> 	
+			and id = #{id}
+			</if>
+			<if test="roleId!=null "> 	
+			and role_id = #{roleId}
+			</if>
+			<if test="userId!=null "> 	
+			and user_id = #{userId}
+			</if>
+			<if test="openFlag!=null "> 	
+			and OPEN_FLAG = #{openFlag}
+			</if>
+			<if test="createDate!=null "> 	
+			and CREATE_DATE = #{createDate}
+			</if>
+			<if test="createUid!=null "> 	
+			and CREATE_UID = #{createUid}
+			</if>
+			<if test="modifyDate!=null "> 	
+			and MODIFY_DATE = #{modifyDate}
+			</if>
+			<if test="modifyUid!=null "> 	
+			and MODIFY_UID = #{modifyUid}
+			</if>
+	</select>
+	
+	
+	<!-- 根据条件过滤 用户角色表  用于翻页查询-->
+	<select id="findSysUserRoleListByFilter"  parameterType="com.hisign.business.action..SysUserRoleFilter"  resultMap="BaseResultMap">
+		select * from (select rownum as num,T.* from (
+			SELECT
+			 	<include refid="Base_Column_List" />
+			from sys_user_role
+        	where 	1=1
+				and del = '0'
+				<if test="id!=null "> 	
+				and id = #{id}
+				</if>
+				<if test="roleId!=null "> 	
+				and role_id = #{roleId}
+				</if>
+				<if test="userId!=null "> 	
+				and user_id = #{userId}
+				</if>
+				<if test="openFlag!=null "> 	
+				and OPEN_FLAG = #{openFlag}
+				</if>
+				<if test="createDate!=null "> 	
+				and CREATE_DATE = #{createDate}
+				</if>
+				<if test="createUid!=null "> 	
+				and CREATE_UID = #{createUid}
+				</if>
+				<if test="modifyDate!=null "> 	
+				and MODIFY_DATE = #{modifyDate}
+				</if>
+				<if test="modifyUid!=null "> 	
+				and MODIFY_UID = #{modifyUid}
+				</if>
+	    		${orderByString}
+			) t  where ROWNUM <![CDATA[<=]]> #{endNum}
+		) where num <![CDATA[>=]]> #{startNum}
+	</select>
+	<!-- 根据条件查询 用户角色表 总数用于翻页查询-->
+	<select id="findSysUserRoleListByFilterTotalCount" parameterType="com.hisign.business.action..SysUserRoleFilter"	resultType="Integer">
+			SELECT
+			  COUNT(1)
+			from sys_user_role
+			where 	1=1
+				and del = '0'
+				<if test="id!=null "> 	
+				and id = #{id}
+				</if>
+				<if test="roleId!=null "> 	
+				and role_id = #{roleId}
+				</if>
+				<if test="userId!=null "> 	
+				and user_id = #{userId}
+				</if>
+				<if test="openFlag!=null "> 	
+				and OPEN_FLAG = #{openFlag}
+				</if>
+				<if test="createDate!=null "> 	
+				and CREATE_DATE = #{createDate}
+				</if>
+				<if test="createUid!=null "> 	
+				and CREATE_UID = #{createUid}
+				</if>
+				<if test="modifyDate!=null "> 	
+				and MODIFY_DATE = #{modifyDate}
+				</if>
+				<if test="modifyUid!=null "> 	
+				and MODIFY_UID = #{modifyUid}
+				</if>
+	</select>
+	
+	<!-- 插入一条用户角色表记录 -->
+	<insert id="insertSysUserRole"  parameterType="com.hisign.business.service.domain..SysUserRole">
+		insert into sys_user_role
+		(
+			 id,
+			 role_id,
+			 user_id,
+			 OPEN_FLAG,
+			 CREATE_DATE,
+			 CREATE_UID,
+			 MODIFY_DATE,
+			 MODIFY_UID
+		) values (
+			 #{id,jdbcType=CHAR},
+					 #{roleId,jdbcType=CHAR},
+					 #{userId,jdbcType=CHAR},
+					 #{openFlag,jdbcType=VARCHAR},
+					 SYSDATE,
+					 #{createUid,jdbcType=CHAR},
+					 #{modifyDate,jdbcType=DATE},
+					 #{modifyUid,jdbcType=CHAR}
+		 )
+	</insert>
+	
+	<!-- 删除一条用户角色表记录 -->
+	<delete id="delSysUserRoleByPk"
+		parameterType="string">
+		delete from sys_user_role 
+		where 
+			1 = 1 
+			and del = '0'
+			and	id = #{id}
+	</delete>
+	
+	<!-- 修改一条用户角色表记录 -->
+	<update id="updateSysUserRole"
+		parameterType="com.hisign.business.service.domain..SysUserRole">
+		update sys_user_role set 
+		role_id = #{roleId,jdbcType=CHAR},
+		user_id = #{userId,jdbcType=CHAR},
+		OPEN_FLAG = #{openFlag,jdbcType=VARCHAR},
+		CREATE_DATE = #{createDate,jdbcType=DATE},
+		CREATE_UID = #{createUid,jdbcType=CHAR},
+		MODIFY_DATE = #{modifyDate,jdbcType=DATE},
+		MODIFY_UID = #{modifyUid,jdbcType=CHAR}
+		where 
+			1 = 1
+			and	id = #{id,jdbcType=CHAR}
+	</update>
+</mapper>
+

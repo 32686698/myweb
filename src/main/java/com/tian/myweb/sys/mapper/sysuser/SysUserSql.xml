@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 用户表表sql处理语句 -->
+<mapper namespace="com.hisign.business.service.domain.sysUserManager">
+	<resultMap id="BaseResultMap" type="com.tian.myweb.sys.domain.SysUser" ></resultMap>
+	
+	<!-- 做查询基类用-->
+	<sql id="Base_Column_List" >
+			id as id,
+			username as username,
+			password as password,
+			true_name as trueName,
+			card_id as cardId,
+			phone_no as phoneNo,
+			email as email,
+			user_level as userLevel,
+			default_module as defaultModule,
+			organ_name as organName,
+			organ_id as organId,
+			remark as remark,
+			OPEN_FLAG as openFlag,
+			CREATE_DATE as createDate,
+			CREATE_UID as createUid,
+			MODIFY_DATE as modifyDate,
+			MODIFY_UID as modifyUid
+  	</sql>
+  	
+	<!-- 根据主键PK查找用户表 -->
+	<select id="findSysUserById"  parameterType="string"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_user
+		where id = #{id}
+	</select>
+	<!-- 查找全部用户 -->
+	<select id="findAllSysUser"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_user
+	</select>
+	
+	<!-- 插入一条用户表记录 -->
+	<insert id="insertSysUser"  parameterType="com.tian.myweb.sys.domain.SysUser">
+		insert into sys_user
+		(
+			 id,
+			 username,
+			 password,
+			 true_name,
+			 card_id,
+			 phone_no,
+			 email,
+			 user_level,
+			 default_module,
+			 organ_name,
+			 organ_id,
+			 remark,
+			 OPEN_FLAG,
+			 CREATE_DATE,
+			 CREATE_UID,
+			 MODIFY_DATE,
+			 MODIFY_UID
+		) values (
+			 #{id,jdbcType=CHAR},
+					 #{username,jdbcType=VARCHAR},
+					 #{password,jdbcType=VARCHAR},
+					 #{trueName,jdbcType=VARCHAR},
+					 #{cardId,jdbcType=VARCHAR},
+					 #{phoneNo,jdbcType=VARCHAR},
+					 #{email,jdbcType=VARCHAR},
+					 #{userLevel,jdbcType=CHAR},
+					 #{defaultModule,jdbcType=VARCHAR},
+					 #{organName,jdbcType=VARCHAR},
+					 #{organId,jdbcType=VARCHAR},
+					 #{remark,jdbcType=VARCHAR},
+					 #{openFlag,jdbcType=VARCHAR},
+					 SYSDATE,
+					 #{createUid,jdbcType=CHAR},
+					 #{modifyDate,jdbcType=DATE},
+					 #{modifyUid,jdbcType=CHAR}
+		 )
+	</insert>
+	
+	<!-- 删除一条用户表记录 -->
+	<delete id="delSysUserById"
+		parameterType="string">
+		delete from sys_user 
+		where id = #{id}
+	</delete>
+	
+	<!-- 修改一条用户表记录 -->
+	<update id="updateSysUser"
+		parameterType="com.tian.myweb.sys.domain.SysUser">
+		update sys_user set 
+		username = #{username,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		true_name = #{trueName,jdbcType=VARCHAR},
+		card_id = #{cardId,jdbcType=VARCHAR},
+		phone_no = #{phoneNo,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		user_level = #{userLevel,jdbcType=CHAR},
+		default_module = #{defaultModule,jdbcType=VARCHAR},
+		organ_name = #{organName,jdbcType=VARCHAR},
+		organ_id = #{organId,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		OPEN_FLAG = #{openFlag,jdbcType=VARCHAR},
+		CREATE_DATE = #{createDate,jdbcType=DATE},
+		CREATE_UID = #{createUid,jdbcType=CHAR},
+		MODIFY_DATE = #{modifyDate,jdbcType=DATE},
+		MODIFY_UID = #{modifyUid,jdbcType=CHAR}
+		where id = #{id,jdbcType=CHAR}
+	</update>
+</mapper>

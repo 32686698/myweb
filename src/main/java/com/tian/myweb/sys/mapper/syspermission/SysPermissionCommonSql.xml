@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 权限表表sql处理语句的代码模板 -->
+<!-- Last updated:2014-09-19 12:53:16 -->
+<!-- 该模板中的sql语句不得直接使用,只是做为代码模板参考 -->
+<mapper namespace="com.hisign.business.service..SysPermissionManager">
+	<resultMap id="BaseResultMap" type="com.hisign.business.service.domain..SysPermission" ></resultMap>
+	
+	
+	<!-- 做查询基类用-->
+	<sql id="Base_Column_List" >
+			id as id,
+			name as name,
+			parent_id as parentId,
+			operation as operation,
+			description as description,
+			OPEN_FLAG as openFlag,
+			CREATE_DATE as createDate,
+			CREATE_UID as createUid,
+			MODIFY_DATE as modifyDate,
+			MODIFY_UID as modifyUid
+  	</sql>
+  	
+	<!-- 根据主键PK查找权限表 -->
+	<select id="findSysPermissionByPk"  parameterType="string"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_permission
+		where
+			1 = 1 
+			and del = '0'
+			and	id = #{id}
+	</select>
+	
+	<!-- 根据条件过滤权限表-->
+	<select id="findSysPermissionList"  parameterType="com.hisign.business.action..SysPermissionFilter"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_permission
+		where   1=1
+			and del = '0'
+			<if test="id!=null "> 	
+			and id = #{id}
+			</if>
+			<if test="name!=null "> 	
+			and name = #{name}
+			</if>
+			<if test="parentId!=null "> 	
+			and parent_id = #{parentId}
+			</if>
+			<if test="operation!=null "> 	
+			and operation = #{operation}
+			</if>
+			<if test="description!=null "> 	
+			and description = #{description}
+			</if>
+			<if test="openFlag!=null "> 	
+			and OPEN_FLAG = #{openFlag}
+			</if>
+			<if test="createDate!=null "> 	
+			and CREATE_DATE = #{createDate}
+			</if>
+			<if test="createUid!=null "> 	
+			and CREATE_UID = #{createUid}
+			</if>
+			<if test="modifyDate!=null "> 	
+			and MODIFY_DATE = #{modifyDate}
+			</if>
+			<if test="modifyUid!=null "> 	
+			and MODIFY_UID = #{modifyUid}
+			</if>
+	</select>
+	
+	
+	<!-- 根据条件过滤 权限表  用于翻页查询-->
+	<select id="findSysPermissionListByFilter"  parameterType="com.hisign.business.action..SysPermissionFilter"  resultMap="BaseResultMap">
+		select * from (select rownum as num,T.* from (
+			SELECT
+			 	<include refid="Base_Column_List" />
+			from sys_permission
+        	where 	1=1
+				and del = '0'
+				<if test="id!=null "> 	
+				and id = #{id}
+				</if>
+				<if test="name!=null "> 	
+				and name = #{name}
+				</if>
+				<if test="parentId!=null "> 	
+				and parent_id = #{parentId}
+				</if>
+				<if test="operation!=null "> 	
+				and operation = #{operation}
+				</if>
+				<if test="description!=null "> 	
+				and description = #{description}
+				</if>
+				<if test="openFlag!=null "> 	
+				and OPEN_FLAG = #{openFlag}
+				</if>
+				<if test="createDate!=null "> 	
+				and CREATE_DATE = #{createDate}
+				</if>
+				<if test="createUid!=null "> 	
+				and CREATE_UID = #{createUid}
+				</if>
+				<if test="modifyDate!=null "> 	
+				and MODIFY_DATE = #{modifyDate}
+				</if>
+				<if test="modifyUid!=null "> 	
+				and MODIFY_UID = #{modifyUid}
+				</if>
+	    		${orderByString}
+			) t  where ROWNUM <![CDATA[<=]]> #{endNum}
+		) where num <![CDATA[>=]]> #{startNum}
+	</select>
+	<!-- 根据条件查询 权限表 总数用于翻页查询-->
+	<select id="findSysPermissionListByFilterTotalCount" parameterType="com.hisign.business.action..SysPermissionFilter"	resultType="Integer">
+			SELECT
+			  COUNT(1)
+			from sys_permission
+			where 	1=1
+				and del = '0'
+				<if test="id!=null "> 	
+				and id = #{id}
+				</if>
+				<if test="name!=null "> 	
+				and name = #{name}
+				</if>
+				<if test="parentId!=null "> 	
+				and parent_id = #{parentId}
+				</if>
+				<if test="operation!=null "> 	
+				and operation = #{operation}
+				</if>
+				<if test="description!=null "> 	
+				and description = #{description}
+				</if>
+				<if test="openFlag!=null "> 	
+				and OPEN_FLAG = #{openFlag}
+				</if>
+				<if test="createDate!=null "> 	
+				and CREATE_DATE = #{createDate}
+				</if>
+				<if test="createUid!=null "> 	
+				and CREATE_UID = #{createUid}
+				</if>
+				<if test="modifyDate!=null "> 	
+				and MODIFY_DATE = #{modifyDate}
+				</if>
+				<if test="modifyUid!=null "> 	
+				and MODIFY_UID = #{modifyUid}
+				</if>
+	</select>
+	
+	<!-- 插入一条权限表记录 -->
+	<insert id="insertSysPermission"  parameterType="com.hisign.business.service.domain..SysPermission">
+		insert into sys_permission
+		(
+			 id,
+			 name,
+			 parent_id,
+			 operation,
+			 description,
+			 OPEN_FLAG,
+			 CREATE_DATE,
+			 CREATE_UID,
+			 MODIFY_DATE,
+			 MODIFY_UID
+		) values (
+			 #{id,jdbcType=CHAR},
+					 #{name,jdbcType=VARCHAR},
+					 #{parentId,jdbcType=CHAR},
+					 #{operation,jdbcType=VARCHAR},
+					 #{description,jdbcType=VARCHAR},
+					 #{openFlag,jdbcType=VARCHAR},
+					 SYSDATE,
+					 #{createUid,jdbcType=CHAR},
+					 #{modifyDate,jdbcType=DATE},
+					 #{modifyUid,jdbcType=CHAR}
+		 )
+	</insert>
+	
+	<!-- 删除一条权限表记录 -->
+	<delete id="delSysPermissionByPk"
+		parameterType="string">
+		delete from sys_permission 
+		where 
+			1 = 1 
+			and del = '0'
+			and	id = #{id}
+	</delete>
+	
+	<!-- 修改一条权限表记录 -->
+	<update id="updateSysPermission"
+		parameterType="com.hisign.business.service.domain..SysPermission">
+		update sys_permission set 
+		name = #{name,jdbcType=VARCHAR},
+		parent_id = #{parentId,jdbcType=CHAR},
+		operation = #{operation,jdbcType=VARCHAR},
+		description = #{description,jdbcType=VARCHAR},
+		OPEN_FLAG = #{openFlag,jdbcType=VARCHAR},
+		CREATE_DATE = #{createDate,jdbcType=DATE},
+		CREATE_UID = #{createUid,jdbcType=CHAR},
+		MODIFY_DATE = #{modifyDate,jdbcType=DATE},
+		MODIFY_UID = #{modifyUid,jdbcType=CHAR}
+		where 
+			1 = 1
+			and	id = #{id,jdbcType=CHAR}
+	</update>
+</mapper>
+

@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 用户表表sql处理语句的代码模板 -->
+<!-- Last updated:2014-09-19 12:53:16 -->
+<!-- 该模板中的sql语句不得直接使用,只是做为代码模板参考 -->
+<mapper namespace="com.hisign.business.service..SysUserManager">
+	<resultMap id="BaseResultMap" type="com.hisign.business.service.domain..SysUser" ></resultMap>
+	
+	
+	<!-- 做查询基类用-->
+	<sql id="Base_Column_List" >
+			id as id,
+			username as username,
+			password as password,
+			true_name as trueName,
+			card_id as cardId,
+			phone_no as phoneNo,
+			email as email,
+			user_level as userLevel,
+			default_module as defaultModule,
+			organ_name as organName,
+			organ_id as organId,
+			remark as remark,
+			OPEN_FLAG as openFlag,
+			CREATE_DATE as createDate,
+			CREATE_UID as createUid,
+			MODIFY_DATE as modifyDate,
+			MODIFY_UID as modifyUid
+  	</sql>
+  	
+	<!-- 根据主键PK查找用户表 -->
+	<select id="findSysUserByPk"  parameterType="string"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_user
+		where
+			1 = 1 
+			and del = '0'
+			and	id = #{id}
+	</select>
+	
+	<!-- 根据条件过滤用户表-->
+	<select id="findSysUserList"  parameterType="com.hisign.business.action..SysUserFilter"  resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from sys_user
+		where   1=1
+			and del = '0'
+			<if test="id!=null "> 	
+			and id = #{id}
+			</if>
+			<if test="username!=null "> 	
+			and username = #{username}
+			</if>
+			<if test="password!=null "> 	
+			and password = #{password}
+			</if>
+			<if test="trueName!=null "> 	
+			and true_name = #{trueName}
+			</if>
+			<if test="cardId!=null "> 	
+			and card_id = #{cardId}
+			</if>
+			<if test="phoneNo!=null "> 	
+			and phone_no = #{phoneNo}
+			</if>
+			<if test="email!=null "> 	
+			and email = #{email}
+			</if>
+			<if test="userLevel!=null "> 	
+			and user_level = #{userLevel}
+			</if>
+			<if test="defaultModule!=null "> 	
+			and default_module = #{defaultModule}
+			</if>
+			<if test="organName!=null "> 	
+			and organ_name = #{organName}
+			</if>
+			<if test="organId!=null "> 	
+			and organ_id = #{organId}
+			</if>
+			<if test="remark!=null "> 	
+			and remark = #{remark}
+			</if>
+			<if test="openFlag!=null "> 	
+			and OPEN_FLAG = #{openFlag}
+			</if>
+			<if test="createDate!=null "> 	
+			and CREATE_DATE = #{createDate}
+			</if>
+			<if test="createUid!=null "> 	
+			and CREATE_UID = #{createUid}
+			</if>
+			<if test="modifyDate!=null "> 	
+			and MODIFY_DATE = #{modifyDate}
+			</if>
+			<if test="modifyUid!=null "> 	
+			and MODIFY_UID = #{modifyUid}
+			</if>
+	</select>
+	
+	
+	<!-- 根据条件过滤 用户表  用于翻页查询-->
+	<select id="findSysUserListByFilter"  parameterType="com.hisign.business.action..SysUserFilter"  resultMap="BaseResultMap">
+		select * from (select rownum as num,T.* from (
+			SELECT
+			 	<include refid="Base_Column_List" />
+			from sys_user
+        	where 	1=1
+				and del = '0'
+				<if test="id!=null "> 	
+				and id = #{id}
+				</if>
+				<if test="username!=null "> 	
+				and username = #{username}
+				</if>
+				<if test="password!=null "> 	
+				and password = #{password}
+				</if>
+				<if test="trueName!=null "> 	
+				and true_name = #{trueName}
+				</if>
+				<if test="cardId!=null "> 	
+				and card_id = #{cardId}
+				</if>
+				<if test="phoneNo!=null "> 	
+				and phone_no = #{phoneNo}
+				</if>
+				<if test="email!=null "> 	
+				and email = #{email}
+				</if>
+				<if test="userLevel!=null "> 	
+				and user_level = #{userLevel}
+				</if>
+				<if test="defaultModule!=null "> 	
+				and default_module = #{defaultModule}
+				</if>
+				<if test="organName!=null "> 	
+				and organ_name = #{organName}
+				</if>
+				<if test="organId!=null "> 	
+				and organ_id = #{organId}
+				</if>
+				<if test="remark!=null "> 	
+				and remark = #{remark}
+				</if>
+				<if test="openFlag!=null "> 	
+				and OPEN_FLAG = #{openFlag}
+				</if>
+				<if test="createDate!=null "> 	
+				and CREATE_DATE = #{createDate}
+				</if>
+				<if test="createUid!=null "> 	
+				and CREATE_UID = #{createUid}
+				</if>
+				<if test="modifyDate!=null "> 	
+				and MODIFY_DATE = #{modifyDate}
+				</if>
+				<if test="modifyUid!=null "> 	
+				and MODIFY_UID = #{modifyUid}
+				</if>
+	    		${orderByString}
+			) t  where ROWNUM <![CDATA[<=]]> #{endNum}
+		) where num <![CDATA[>=]]> #{startNum}
+	</select>
+	<!-- 根据条件查询 用户表 总数用于翻页查询-->
+	<select id="findSysUserListByFilterTotalCount" parameterType="com.hisign.business.action..SysUserFilter"	resultType="Integer">
+			SELECT
+			  COUNT(1)
+			from sys_user
+			where 	1=1
+				and del = '0'
+				<if test="id!=null "> 	
+				and id = #{id}
+				</if>
+				<if test="username!=null "> 	
+				and username = #{username}
+				</if>
+				<if test="password!=null "> 	
+				and password = #{password}
+				</if>
+				<if test="trueName!=null "> 	
+				and true_name = #{trueName}
+				</if>
+				<if test="cardId!=null "> 	
+				and card_id = #{cardId}
+				</if>
+				<if test="phoneNo!=null "> 	
+				and phone_no = #{phoneNo}
+				</if>
+				<if test="email!=null "> 	
+				and email = #{email}
+				</if>
+				<if test="userLevel!=null "> 	
+				and user_level = #{userLevel}
+				</if>
+				<if test="defaultModule!=null "> 	
+				and default_module = #{defaultModule}
+				</if>
+				<if test="organName!=null "> 	
+				and organ_name = #{organName}
+				</if>
+				<if test="organId!=null "> 	
+				and organ_id = #{organId}
+				</if>
+				<if test="remark!=null "> 	
+				and remark = #{remark}
+				</if>
+				<if test="openFlag!=null "> 	
+				and OPEN_FLAG = #{openFlag}
+				</if>
+				<if test="createDate!=null "> 	
+				and CREATE_DATE = #{createDate}
+				</if>
+				<if test="createUid!=null "> 	
+				and CREATE_UID = #{createUid}
+				</if>
+				<if test="modifyDate!=null "> 	
+				and MODIFY_DATE = #{modifyDate}
+				</if>
+				<if test="modifyUid!=null "> 	
+				and MODIFY_UID = #{modifyUid}
+				</if>
+	</select>
+	
+	<!-- 插入一条用户表记录 -->
+	<insert id="insertSysUser"  parameterType="com.hisign.business.service.domain..SysUser">
+		insert into sys_user
+		(
+			 id,
+			 username,
+			 password,
+			 true_name,
+			 card_id,
+			 phone_no,
+			 email,
+			 user_level,
+			 default_module,
+			 organ_name,
+			 organ_id,
+			 remark,
+			 OPEN_FLAG,
+			 CREATE_DATE,
+			 CREATE_UID,
+			 MODIFY_DATE,
+			 MODIFY_UID
+		) values (
+			 #{id,jdbcType=CHAR},
+					 #{username,jdbcType=VARCHAR},
+					 #{password,jdbcType=VARCHAR},
+					 #{trueName,jdbcType=VARCHAR},
+					 #{cardId,jdbcType=VARCHAR},
+					 #{phoneNo,jdbcType=VARCHAR},
+					 #{email,jdbcType=VARCHAR},
+					 #{userLevel,jdbcType=CHAR},
+					 #{defaultModule,jdbcType=VARCHAR},
+					 #{organName,jdbcType=VARCHAR},
+					 #{organId,jdbcType=VARCHAR},
+					 #{remark,jdbcType=VARCHAR},
+					 #{openFlag,jdbcType=VARCHAR},
+					 SYSDATE,
+					 #{createUid,jdbcType=CHAR},
+					 #{modifyDate,jdbcType=DATE},
+					 #{modifyUid,jdbcType=CHAR}
+		 )
+	</insert>
+	
+	<!-- 删除一条用户表记录 -->
+	<delete id="delSysUserByPk"
+		parameterType="string">
+		delete from sys_user 
+		where 
+			1 = 1 
+			and del = '0'
+			and	id = #{id}
+	</delete>
+	
+	<!-- 修改一条用户表记录 -->
+	<update id="updateSysUser"
+		parameterType="com.hisign.business.service.domain..SysUser">
+		update sys_user set 
+		username = #{username,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		true_name = #{trueName,jdbcType=VARCHAR},
+		card_id = #{cardId,jdbcType=VARCHAR},
+		phone_no = #{phoneNo,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		user_level = #{userLevel,jdbcType=CHAR},
+		default_module = #{defaultModule,jdbcType=VARCHAR},
+		organ_name = #{organName,jdbcType=VARCHAR},
+		organ_id = #{organId,jdbcType=VARCHAR},
+		remark = #{remark,jdbcType=VARCHAR},
+		OPEN_FLAG = #{openFlag,jdbcType=VARCHAR},
+		CREATE_DATE = #{createDate,jdbcType=DATE},
+		CREATE_UID = #{createUid,jdbcType=CHAR},
+		MODIFY_DATE = #{modifyDate,jdbcType=DATE},
+		MODIFY_UID = #{modifyUid,jdbcType=CHAR}
+		where 
+			1 = 1
+			and	id = #{id,jdbcType=CHAR}
+	</update>
+</mapper>
+

@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.tian.myweb.sys.model.UserModel;
+import com.tian.myweb.sys.domain.SysUser;
 import com.tian.myweb.sys.service.UserService;
 
 public class UserTest {
@@ -21,9 +21,9 @@ private UserService userService;
      
     @Test
     public void addUser(){
-        UserModel user = new UserModel();
+    	SysUser user = new SysUser();
         user.setUsername("你好");
         user.setPassword("bbb");
-        userService.insertUser(user);
+        userService.insertSysUser(user);
     }
 }
