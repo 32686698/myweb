@@ -1,4 +1,4 @@
-package com.tian.myweb.sys.security;
+package com.tian.myweb.sys.security.authentication;
 
 import java.util.ArrayList;
 import java.util.Collection;

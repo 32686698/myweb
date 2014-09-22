@@ -11,17 +11,23 @@
 	<http auto-config="true">
 		<form-login login-page="/login.jsp" 
 					authentication-failure-url="/user/loginFail?msg=error" 
-					default-target-url="/login.jsp?msg=success" />
+					default-target-url="/login.jsp?msg=success" 
+					authentication-success-handler-ref="MyOnSuccess"
+					authentication-failure-handler-ref="MyOnFailure"/>
 		<logout logout-success-url="/login.jsp?msg=logout" />
 		<http-basic />
 		<!-- 增加一个filter，这点与Acegi是不一样的，不能修改默认的filter了，这个filter位于FILTER_SECURITY_INTERCEPTOR之前 -->
 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="myFilter" />
 	</http>
 
-	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， 
+	<!-- 登录成功失败后的处理 -->
+	<beans:bean id="MyOnSuccess" class="com.tian.myweb.sys.security.logfilter.MyOnSuccess"/>
+	<beans:bean id="MyOnFailure" class="com.tian.myweb.sys.security.logfilter.MyOnFailure"/>
+	
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，
 		我们的所有控制将在这三个类中实现，解释详见具体配置 -->
 	<beans:bean id="myFilter"
-		class="com.tian.myweb.sys.security.MyFilterSecurityInterceptor">
+		class="com.tian.myweb.sys.security.authentication.MyFilterSecurityInterceptor">
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 		<beans:property name="accessDecisionManager" ref="myAccessDecisionManagerBean" />
 		<beans:property name="securityMetadataSource" ref="securityMetadataSource" />
@@ -33,12 +39,12 @@
 			<!-- 如果用户的密码采用加密的话，可以加点“盐” <password-encoder hash="md5" /> -->
 		</authentication-provider>
 	</authentication-manager>
-	<beans:bean id="myUserDetailService" class="com.tian.myweb.sys.security.MyUserDetailService" />
+	<beans:bean id="myUserDetailService" class="com.tian.myweb.sys.security.authentication.MyUserDetailService" />
 
 	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
-	<beans:bean id="myAccessDecisionManagerBean" class="com.tian.myweb.sys.security.MyAccessDecisionManager"/>
+	<beans:bean id="myAccessDecisionManagerBean" class="com.tian.myweb.sys.security.authentication.MyAccessDecisionManager"/>
 
 	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
-	<beans:bean id="securityMetadataSource" class="com.tian.myweb.sys.security.MyInvocationSecurityMetadataSource" />
+	<beans:bean id="securityMetadataSource" class="com.tian.myweb.sys.security.authentication.MyInvocationSecurityMetadataSource" />
 
 </beans:beans>           
