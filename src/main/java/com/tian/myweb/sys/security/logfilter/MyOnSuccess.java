@@ -21,11 +21,7 @@ public class MyOnSuccess implements AuthenticationSuccessHandler{
 		User user = (User) authentication.getPrincipal();
 		Collection<GrantedAuthority> auths=(Collection<GrantedAuthority>) authentication.getAuthorities();
 		System.out.println(authentication);
-		Object savedRequestObject = request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
-        if(savedRequestObject != null) {
-//            redirectUrl = ((SavedRequest)savedRequestObject).getRedirectUrl();
-            request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
-        }
+		response.sendRedirect(request.getContextPath()+"/login.jsp?msg=success");
 	}
 
 }

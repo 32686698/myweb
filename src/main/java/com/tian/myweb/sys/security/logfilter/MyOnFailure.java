@@ -15,11 +15,8 @@ public class MyOnFailure implements AuthenticationFailureHandler {
 			HttpServletResponse response, AuthenticationException exception)
 			throws IOException, ServletException {
 		String errorMSG = exception.getMessage();// User is disabled
-		// Bad credentials
 		System.out.println("errorMSG:" + exception.getMessage());
-		if (!("".equals(errorMSG)))
-			response.sendRedirect(request.getContextPath()
-					+ "/others_handler/login_faild/" + errorMSG);
+		response.sendRedirect(request.getContextPath()+"/user/loginFail?msg=error");
 	}
 
 }

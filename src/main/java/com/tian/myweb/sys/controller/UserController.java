@@ -20,10 +20,8 @@ public class UserController {
     public String login(@RequestParam("j_username")String username, @RequestParam("j_password")String pwd ,HttpServletRequest request) {
         // @RequestParam是指请求url地址映射中必须含有的参数(除非属性required=false)
         // @RequestParam可简写为：@RequestParam("username")
- 
 		System.out.println(username+pwd);
 		System.out.println(userService.findAllSysUser());
-		
         return "main";// 跳转页面路径（默认为转发），该路径不需要包含spring-servlet配置文件中配置的前缀和后缀
     }
 	

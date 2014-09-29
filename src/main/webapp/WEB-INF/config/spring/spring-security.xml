@@ -6,12 +6,10 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<http pattern="/login.jsp" security="none"/>
-	<http pattern="/user/**" security="none"/>
+	<!-- <http pattern="/login.jsp" security="none"/>
+	<http pattern="/user/**" security="none"/> -->
 	<http auto-config="true">
 		<form-login login-page="/login.jsp" 
-					authentication-failure-url="/user/loginFail?msg=error" 
-					default-target-url="/login.jsp?msg=success" 
 					authentication-success-handler-ref="MyOnSuccess"
 					authentication-failure-handler-ref="MyOnFailure"/>
 		<logout logout-success-url="/login.jsp?msg=logout" />
@@ -33,17 +31,15 @@
 		<beans:property name="securityMetadataSource" ref="securityMetadataSource" />
 	</beans:bean>
 
-	<!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="myUserDetailService">
-			<!-- 如果用户的密码采用加密的话，可以加点“盐” <password-encoder hash="md5" /> -->
+			<password-encoder hash="md5" />
 		</authentication-provider>
 	</authentication-manager>
 	<beans:bean id="myUserDetailService" class="com.tian.myweb.sys.security.authentication.MyUserDetailService" />
 
 	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
 	<beans:bean id="myAccessDecisionManagerBean" class="com.tian.myweb.sys.security.authentication.MyAccessDecisionManager"/>
-
 	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
 	<beans:bean id="securityMetadataSource" class="com.tian.myweb.sys.security.authentication.MyInvocationSecurityMetadataSource" />
 
